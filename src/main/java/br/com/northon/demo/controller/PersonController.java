@@ -3,6 +3,7 @@ package br.com.northon.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,13 +27,13 @@ public class PersonController {
 	private PersonService personService;
 
 	@GetMapping("/{id}")
-	public Person findById(@PathVariable(value="id") String id) {
+	public Person findById(@PathVariable(value="id") Long id) throws Exception {
 		
 		return personService.findById(id);
 		
 	}
 	
-	@GetMapping("/all")
+	@GetMapping
 	public List<Person> findAll() {
 		
 		return personService.findAll();
@@ -55,9 +56,10 @@ public class PersonController {
 	
 	
 	@DeleteMapping("/{id}")
-	public void deletePerson(@PathVariable String id) {
+	public ResponseEntity<?> deletePerson(@PathVariable Long id) {
 		
 		personService.deletePerson(id);
 		
+		return ResponseEntity.noContent().build();
 	}
 }
