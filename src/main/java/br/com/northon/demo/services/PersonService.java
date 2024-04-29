@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.northon.demo.data.vo.v1.PersonVO;
+import br.com.northon.demo.data.vo.v2.PersonVOV2;
 import br.com.northon.demo.exception.ResourceNotFoundException;
 import br.com.northon.demo.mapper.DozerMapper;
+import br.com.northon.demo.mapper.custom.PersonMapper;
 import br.com.northon.demo.model.Person;
 import br.com.northon.demo.repositorys.PersonRepository;
 
@@ -17,6 +19,9 @@ public class PersonService {
 	
 	@Autowired
 	private PersonRepository personRepository;
+	
+	@Autowired
+	private PersonMapper personMapper;
 	
 	private Logger logger = Logger.getLogger(PersonService.class.getName());
 	
@@ -42,6 +47,16 @@ public class PersonService {
 		var entity = DozerMapper.parseObject(personVO, Person.class);
 		
 		var vo = DozerMapper.parseObject(personRepository.save(entity), PersonVO.class);
+		
+		return vo;
+	}
+	
+	public PersonVOV2 createPersonV2(PersonVOV2 person) {
+		logger.info("Creating one person with v2");
+		
+		var entity = personMapper.convertVoToEntity(person);
+		
+		var vo = personMapper.convertEntityToVo(personRepository.save(entity));
 		
 		return vo;
 	}
