@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.northon.demo.model.Person;
+import br.com.northon.demo.data.vo.v1.PersonVO;
 import br.com.northon.demo.services.PersonService;
 
 /**
@@ -27,28 +27,28 @@ public class PersonController {
 	private PersonService personService;
 
 	@GetMapping("/{id}")
-	public Person findById(@PathVariable(value="id") Long id) throws Exception {
+	public PersonVO findById(@PathVariable(value="id") Long id) throws Exception {
 		
 		return personService.findById(id);
 		
 	}
 	
 	@GetMapping
-	public List<Person> findAll() {
+	public List<PersonVO> findAll() {
 		
 		return personService.findAll();
 		
 	}
 	
 	@PostMapping()
-	public Person createPerson(@RequestBody Person person) {
+	public PersonVO createPerson(@RequestBody PersonVO person) {
 		
 		return personService.createPerson(person);
 		
 	}
 
 	@PutMapping()
-	public Person updatePerson(@RequestBody Person person) {
+	public PersonVO updatePerson(@RequestBody PersonVO person) {
 		
 		return personService.updatePerson(person);
 		
