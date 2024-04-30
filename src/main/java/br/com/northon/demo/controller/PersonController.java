@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.northon.demo.data.vo.v1.PersonVO;
 import br.com.northon.demo.data.vo.v2.PersonVOV2;
 import br.com.northon.demo.services.PersonService;
+import br.com.northon.demo.util.MediaType;
 
 /**
  * GreetingsController
@@ -27,35 +28,43 @@ public class PersonController {
 	@Autowired
 	private PersonService personService;
 
-	@GetMapping("/{id}")
+	@GetMapping(value= "/{id}", produces = {MediaType.APPLICATION_JSON, 
+			MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
 	public PersonVO findById(@PathVariable(value="id") Long id) throws Exception {
 		
 		return personService.findById(id);
 		
 	}
 	
-	@GetMapping
+	@GetMapping(produces = {MediaType.APPLICATION_JSON, 
+			MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
 	public List<PersonVO> findAll() {
 		
 		return personService.findAll();
 		
 	}
 	
-	@PostMapping()
+	@PostMapping(produces = {MediaType.APPLICATION_JSON, 
+			MediaType.APPLICATION_XML, MediaType.APPLICATION_YML}, consumes = {MediaType.APPLICATION_JSON, 
+					MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
 	public PersonVO createPerson(@RequestBody PersonVO person) {
 		
 		return personService.createPerson(person);
 		
 	}
 	
-	@PostMapping("/v2")
+	@PostMapping(value ="/v2", produces = {MediaType.APPLICATION_JSON, 
+			MediaType.APPLICATION_XML, MediaType.APPLICATION_YML}, consumes = {MediaType.APPLICATION_JSON, 
+					MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
 	public PersonVOV2 createPersonV2(@RequestBody PersonVOV2 person) {
 		
 		return personService.createPersonV2(person);
 		
 	}
 
-	@PutMapping()
+	@PutMapping(consumes = {MediaType.APPLICATION_JSON, 
+			MediaType.APPLICATION_XML, MediaType.APPLICATION_YML}, produces = {MediaType.APPLICATION_JSON, 
+			MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
 	public PersonVO updatePerson(@RequestBody PersonVO person) {
 		
 		return personService.updatePerson(person);
@@ -63,7 +72,8 @@ public class PersonController {
 	}
 	
 	
-	@DeleteMapping("/{id}")
+	@DeleteMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON, 
+			MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
 	public ResponseEntity<?> deletePerson(@PathVariable Long id) {
 		
 		personService.deletePerson(id);
