@@ -21,7 +21,7 @@ import br.com.northon.demo.services.PersonService;
  * GreetingsController
  */
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/api/person/v1")
 public class PersonController {
 	
 	@Autowired

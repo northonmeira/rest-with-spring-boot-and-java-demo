@@ -1,0 +1,1 @@
+INSERT INTO `person` VALUES (2,'Osasco6','PNorman','male','Last name6'),(3,'Osasco6','PNorman','male','Last name6'),(5,'Alien Plannet','PNorma2222n','Alien','Last naasss'),(6,'Alien Plannet','Nortihon','Alien','Last naasss'),(7,'Alien Plannet','Nortihon','Alien','Last naasss'),(8,'Alien Plannet','Nortihon','Alien','Last naasss');
