@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.northon.demo.data.vo.v1.PersonVO;
-import br.com.northon.demo.data.vo.v2.PersonVOV2;
 import br.com.northon.demo.services.PersonService;
 import br.com.northon.demo.util.MediaType;
 
@@ -53,15 +52,6 @@ public class PersonController {
 		
 	}
 	
-	@PostMapping(value ="/v2", produces = {MediaType.APPLICATION_JSON, 
-			MediaType.APPLICATION_XML, MediaType.APPLICATION_YML}, consumes = {MediaType.APPLICATION_JSON, 
-					MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
-	public PersonVOV2 createPersonV2(@RequestBody PersonVOV2 person) {
-		
-		return personService.createPersonV2(person);
-		
-	}
-
 	@PutMapping(consumes = {MediaType.APPLICATION_JSON, 
 			MediaType.APPLICATION_XML, MediaType.APPLICATION_YML}, produces = {MediaType.APPLICATION_JSON, 
 			MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
