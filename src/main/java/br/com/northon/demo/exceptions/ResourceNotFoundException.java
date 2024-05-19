@@ -1,4 +1,4 @@
-package br.com.northon.demo.exception;
+package br.com.northon.demo.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

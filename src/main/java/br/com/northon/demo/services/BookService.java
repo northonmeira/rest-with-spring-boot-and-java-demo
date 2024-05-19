@@ -13,7 +13,7 @@ import br.com.northon.demo.controller.BookController;
 import br.com.northon.demo.controller.PersonController;
 import br.com.northon.demo.data.vo.v1.BookVO;
 import br.com.northon.demo.exception.RequiredObjectIsNullException;
-import br.com.northon.demo.exception.ResourceNotFoundException;
+import br.com.northon.demo.exceptions.ResourceNotFoundException;
 import br.com.northon.demo.mapper.DozerMapper;
 import br.com.northon.demo.model.Book;
 import br.com.northon.demo.repositorys.BookRepository;
