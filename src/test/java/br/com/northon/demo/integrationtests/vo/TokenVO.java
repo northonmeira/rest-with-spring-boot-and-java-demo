@@ -1,4 +1,4 @@
-package br.com.northon.demo.data.vo.security;
+package br.com.northon.demo.integrationtests.vo;
 
 import java.io.Serializable;
 import java.util.Date;

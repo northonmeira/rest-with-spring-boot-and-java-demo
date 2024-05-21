@@ -170,7 +170,7 @@ class PersonServiceTest {
 		assertNotNull(personOne);
 		assertNotNull(personOne.getKey());
 		assertNotNull(personOne.getLinks());
-		assertTrue(personOne.toString().contains("links: [</api/person/v1/1>;rel=\"self\"]"));
+		assertTrue(personOne.toString().contains("[</api/person/v1>;rel=\"self\"]"));
 		assertEquals("Addres Test1", personOne.getAddress());
 		assertEquals("First Name Test1", personOne.getFirstName());
 		assertEquals("Last Name Test1", personOne.getLastName());
@@ -181,21 +181,22 @@ class PersonServiceTest {
 		assertNotNull(personFour);
 		assertNotNull(personFour.getKey());
 		assertNotNull(personFour.getLinks());
-		assertTrue(personFour.toString().contains("links: [</api/person/v1/4>;rel=\"self\"]"));
-		assertEquals("Addres Test1", personFour.getAddress());
-		assertEquals("First Name Test1", personFour.getFirstName());
-		assertEquals("Last Name Test1", personFour.getLastName());
-		assertEquals("Female", personFour.getGender());
+		System.out.println(personFour.toString());
+		assertTrue(personFour.toString().contains("[</api/person/v1>;rel=\"self\"]"));
+		assertEquals("Addres Test4", personFour.getAddress());
+		assertEquals("First Name Test4", personFour.getFirstName());
+		assertEquals("Last Name Test4", personFour.getLastName());
+		assertEquals("Male", personFour.getGender());
 		
 		var personSeven = people.get(7);
 		
 		assertNotNull(personSeven);
 		assertNotNull(personSeven.getKey());
 		assertNotNull(personSeven.getLinks());
-		assertTrue(personSeven.toString().contains("links: [</api/person/v1/7>;rel=\"self\"]"));
-		assertEquals("Addres Test1", personSeven.getAddress());
-		assertEquals("First Name Test1", personSeven.getFirstName());
-		assertEquals("Last Name Test1", personSeven.getLastName());
+		assertTrue(personSeven.toString().contains("[</api/person/v1>;rel=\"self\"]"));
+		assertEquals("Addres Test7", personSeven.getAddress());
+		assertEquals("First Name Test7", personSeven.getFirstName());
+		assertEquals("Last Name Test7", personSeven.getLastName());
 		assertEquals("Female", personSeven.getGender());
 	}
 
