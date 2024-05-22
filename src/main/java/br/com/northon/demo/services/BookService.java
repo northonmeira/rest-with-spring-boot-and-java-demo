@@ -3,14 +3,17 @@ package br.com.northon.demo.services;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
 import br.com.northon.demo.controller.BookController;
-import br.com.northon.demo.controller.PersonController;
 import br.com.northon.demo.data.vo.v1.BookVO;
 import br.com.northon.demo.exception.RequiredObjectIsNullException;
 import br.com.northon.demo.exceptions.ResourceNotFoundException;
@@ -26,6 +29,9 @@ public class BookService {
 	@Autowired
 	private BookRepository repository;
 	
+	@Autowired
+	private PagedResourcesAssembler<BookVO> assembler;
+	
 	public BookVO findById(Long id) {
 		logger.info("finding one book by id");
 		
@@ -39,14 +45,20 @@ public class BookService {
 		return vo;
 	}
 	
-	public List<BookVO> findAll() {
+	public PagedModel<EntityModel<BookVO>> findAll(Pageable pageable) {
 		logger.info("finding all books");
 		
-		var books = DozerMapper.parseListObjects(repository.findAll(), BookVO.class);
+		var booksPage = repository.findAll(pageable);
 		
-		books.stream().forEach(p -> p.add(linkTo(methodOn(BookController.class).findAll()).withSelfRel()));
+		var booksVoPage = booksPage.map(b -> DozerMapper.parseObject(b, BookVO.class));
 		
-		return books;
+		booksVoPage.stream().forEach(
+				b -> b.add(linkTo(methodOn(BookController.class).findById(b.getKey())).withSelfRel()));
+		
+		Link link = linkTo(methodOn(BookController.class).findAll(
+						pageable.getPageNumber(), pageable.getPageSize(), "asc")).withSelfRel();
+		
+		return assembler.toModel(booksVoPage, link);
 	}
 	
 	public BookVO create(BookVO book) {
