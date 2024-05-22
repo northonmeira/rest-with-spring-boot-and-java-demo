@@ -5,6 +5,9 @@ import java.util.Objects;
 
 import org.springframework.hateoas.RepresentationModel;
 
+import jakarta.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class PersonVO extends RepresentationModel<PersonVO> implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
