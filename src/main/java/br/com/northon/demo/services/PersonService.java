@@ -16,6 +16,7 @@ import br.com.northon.demo.exceptions.ResourceNotFoundException;
 import br.com.northon.demo.mapper.DozerMapper;
 import br.com.northon.demo.model.Person;
 import br.com.northon.demo.repositorys.PersonRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class PersonService {
@@ -84,6 +85,23 @@ public class PersonService {
 		
 		vo.add(linkTo(methodOn(PersonController.class).updatePerson(personVO)).withSelfRel());
 		
+		return vo;
+	}
+	
+	@Transactional
+	public PersonVO disablePerson(Long id) throws Exception {
+		
+		logger.info("disabling one person");
+		
+		personRepository.disablePerson(id);
+
+		var entity = personRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("No record found for this ID!"));
+		
+		PersonVO vo = DozerMapper.parseObject(entity, PersonVO.class);
+		
+		vo.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
+	
 		return vo;
 	}
 

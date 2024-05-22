@@ -1,7 +1,9 @@
 package br.com.northon.demo.integrationtests.controller.withjson;
 
 import static io.restassured.RestAssured.given;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -42,7 +44,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 		
 		person = new PersonVO();
-	}
+	}                         
 	
 	@Test
 	@Order(0)
@@ -97,6 +99,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		assertNotNull(createdPerson.getLastName());
 		assertNotNull(createdPerson.getAddress());
 		assertNotNull(createdPerson.getGender());
+		assertTrue(createdPerson.getEnabled());
 		
 		assertEquals("Wellington", createdPerson.getFirstName());
 		assertEquals("Ridus", createdPerson.getLastName());
@@ -150,6 +153,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		assertNotNull(createdPerson.getLastName());
 		assertNotNull(createdPerson.getAddress());
 		assertNotNull(createdPerson.getGender());
+		assertTrue(createdPerson.getEnabled());
 		
 		assertEquals("Wellington", createdPerson.getFirstName());
 		assertEquals("Ridus", createdPerson.getLastName());
@@ -185,20 +189,40 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		person.setLastName("Ridus");
 		person.setAddress("Vila Yolanda");
 		person.setGender("mamale");
+		person.setEnabled(true);
 		
 	}
 
-//	@Test
-//	public void shouldDisplaySwaggerUiPage() {
-//		var content =given().basePath("/swagger-ui/index.html")
-//			.port(TestConfigs.SERVER_PORT)
-//			.when().get()
-//			.then().statusCode(200)
-//			.extract()
-//			.body().asString();
-//		
-//		assertTrue(content.contains("Swagger UI"));
-//		
-//	}
-
+	@Test
+	@Order(5)
+	public void testDisablePerson() throws JsonMappingException, JsonProcessingException {
+		mockPerson();
+		
+		var content = given()
+				.spec(specification)
+				.contentType(TestConfigs.CONTENT_TYPE_JSON)
+				.header(TestConfigs.HEADER_PARAM_ORIGIN, "http://northon.com.br")
+				.pathParam("id", person.getId())
+				.when().patch("{id}")
+				.then().statusCode(200)
+				.extract()
+					.body()
+						.asString();
+		
+		PersonVO createdPerson = objectMapper.readValue(content, PersonVO.class);
+		
+		assertNotNull(createdPerson);
+		assertNotNull(createdPerson.getId());
+		assertNotNull(createdPerson.getFirstName());
+		assertNotNull(createdPerson.getLastName());
+		assertNotNull(createdPerson.getAddress());
+		assertNotNull(createdPerson.getGender());
+		assertFalse(createdPerson.getEnabled());
+		
+		assertEquals("Wellington", createdPerson.getFirstName());
+		assertEquals("Ridus", createdPerson.getLastName());
+		assertEquals("Vila Yolanda", createdPerson.getAddress());
+		assertEquals("mamale", createdPerson.getGender());
+		
+	}
 }
