@@ -3,11 +3,9 @@ package br.com.northon.demo.services;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
@@ -75,6 +73,31 @@ public class PersonService {
 		return assembler.toModel(personVosPage, link);
 	}
 
+	public PagedModel<EntityModel<PersonVO>> findPersonsByName(String firstName, Pageable pageable) {
+		
+		logger.info("finding people by name");
+		
+		var personPage = personRepository.findPersonsByName(firstName, pageable);
+
+		var personVosPage = personPage.map(p -> DozerMapper.parseObject(p, PersonVO.class));
+		
+		personVosPage.stream().forEach(
+				p -> {
+					try {
+						p.add(linkTo(methodOn(PersonController.class)
+								.findById(p.getKey())).withSelfRel());
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				});
+		
+		Link link = linkTo(
+				methodOn(PersonController.class).findAll(
+						pageable.getPageNumber(), pageable.getPageSize(), "asc")).withSelfRel();
+		
+		return assembler.toModel(personVosPage, link);
+	}
 	
 	public PersonVO createPerson(PersonVO personVO) {
 		
@@ -96,6 +119,7 @@ public class PersonService {
 		if(personVO == null) throw new RequiredObjectIsNullException();
 		
 		logger.info("Updating one person!");
+		
 		Person entity = personRepository.findById(personVO.getKey())
 				.orElseThrow(() -> new ResourceNotFoundException("No record found for this ID!")); 
 		
@@ -129,6 +153,7 @@ public class PersonService {
 	}
 
 	public void deletePerson(Long id) {
+		
 		logger.info("Deleting one person!");
 		
 		Person entity = personRepository.findById(id)

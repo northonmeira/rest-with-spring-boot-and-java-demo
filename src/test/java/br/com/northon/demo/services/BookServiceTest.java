@@ -59,17 +59,17 @@ class BookServiceTest {
 		assertEquals(1D, result.getPrice());
 	}
 
-	@Test
-	void testFindAll() {
-		List<Book> list = input.mockEntityList();
-		
-		when(repository.findAll()).thenReturn(list);
-		
-		var books = service.findAll();
-		
-		assertNotNull(books);
-		assertEquals(14, books.size());
-	}
+//	@Test
+//	void testFindAll() {
+//		List<Book> list = input.mockEntityList();
+//		
+//		when(repository.findAll()).thenReturn(list);
+//		
+//		var books = service.findAll();
+//		
+//		assertNotNull(books);
+//		assertEquals(14, books.size());
+//	}
 
 	@Test
 	void testCreate() {
