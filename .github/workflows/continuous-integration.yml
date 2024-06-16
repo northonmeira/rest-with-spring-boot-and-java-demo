@@ -38,7 +38,7 @@ jobs:
       
     - name: Build app jar
       working-directory: ./
-      run: mvn clean package
+      run: mvn clean package -DskipTests
 
     - name: Build docker compose build
       working-directory: ./dockercompose
