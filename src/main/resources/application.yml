@@ -1,7 +1,7 @@
 cors:
   originPatterns: http://localhost:3000,http://localhost:8080,http://northon.com.br
 file:
-  upload-dir: /Java Projects/uploadDir
+  upload-dir: /home/work/rest-with-spring-boot-and-java-demo/uploadDir
 security:
   jwt:
     token:
